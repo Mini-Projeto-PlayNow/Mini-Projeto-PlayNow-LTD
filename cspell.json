@@ -1,16 +1,30 @@
 {
   "version": 0,
-  "language": [
-    "en",
-    "pt-br"
-  ],
+  "language": ["en", "pt-br"],
   "words": [
+    "Ação",
+    "Calcular",
+    "catálogo",
     "cinematch",
+    "Comédia",
+    "compatibilidade",
+    "conteúdo",
+    "conteúdos",
+    "criar",
+    "Escolha",
     "generos",
+    "idade",
+    "mais",
+    "maratona",
     "opcao",
+    "opção",
+    "perfil",
     "playnow",
     "prompt-sync",
     "Recomendacao",
-    "usuario"
+    "recomendado",
+    "Sair",
+    "usuario",
+    "você"
   ]
 }

@@ -1,4 +1,5 @@
 (function () {
+  const catalogo = require("./catalogo");
   const prompt = require("prompt-sync")();
   let usuario = null;
   let opcao = null;
@@ -22,10 +23,10 @@
         exibirCatalogo(catalogo);
         break;
       case "3":
-        calcularCompatibilidades(usuario, catalogo);
+        calcularCompatibilidades(usuario,catalogo);
         break;
       case "4":
-        exibirRecomendacaoPrincipal(usuario, catalogo);
+        exibirRecomendacaoPrincipal(usuario,catalogo);
         break;
       case "5":
         console.log("Até a próxima maratona!");
@@ -57,48 +58,19 @@
       );
     }
   }
-const catalogo [{},{},{}
+  function exibirCatalogo(catalogo) {
+    console.log(catalogo);
 
-]
+  }
+function calcularCompatibilidades(usuario, catalogo) {
+    if (usuario == null) {
+      console.log("nenhum perfil de usuário encontrado. Crie um perfil.");
+      return;
+      const compatibilidades =catalogo.map((item)=>{
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      }
+    };
+  
+  }
+  // ------------------------------------------------------------------------------
 })();

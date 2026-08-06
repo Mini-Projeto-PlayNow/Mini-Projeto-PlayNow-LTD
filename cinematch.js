@@ -1,34 +1,58 @@
-const prompt = require("prompt-sync")();
+(function () {
+  const prompt = require("prompt-sync")();
 
-do {
-  console.log("\n===== CineMatch JS =====");
-  console.log("1 - Ver meu perfil");
-  console.log("2 - Ver catálogo completo");
-  console.log("3 - Calcular compatibilidade com todos os conteúdos");
-  console.log("4 - Ver o conteúdo mais recomendado");
-  console.log("5 - Sair");
-  opcao = prompt("Escolha uma opção: ");
-  switch (opcao) {
-    case "1":
-      exibirPerfil(usuario);
-      break;
-    case "2":
-      exibirCatalogo(catalogo);
-      break;
-    case "3":
-      calcularCompatibilidades(usuario, catalogo);
-      break;
-    case "4":
-      exibirRecomendacaoPrincipal(usuario, catalogo);
-      break;
-    case "5":
-      console.log("Até a próxima maratona!");
-      break;
-    default:
-      console.log("Opção inválida, tente novamente.");
-      break;
+  do {
+    console.log("\n===== CineMatch JS =====");
+    console.log("0 - criar meu perfil");
+    console.log("1 - Ver meu perfil");
+    console.log("2 - Ver catálogo completo");
+    console.log("3 - Calcular compatibilidade com todos os conteúdos");
+    console.log("4 - Ver o conteúdo mais recomendado");
+    console.log("5 - Sair");
+    opcao = prompt("Escolha uma opção: ");
+    switch (opcao) {
+      case "0":
+        criarPerfil();
+        break;
+      case "1":
+        exibirPerfil(usuario);
+        break;
+      case "2":
+        exibirCatalogo(catalogo);
+        break;
+      case "3":
+        calcularCompatibilidades(usuario, catalogo);
+        break;
+      case "4":
+        exibirRecomendacaoPrincipal(usuario, catalogo);
+        break;
+      case "5":
+        console.log("Até a próxima maratona!");
+        break;
+      default:
+        console.log("Opção inválida, tente novamente.");
+        break;
+    }
+  } while (opcao !== "5");
+  function criarPerfil() {
+    const nome = prompt("Qual é o seu nome? ");
+    const idade = Number(prompt("Qual é a sua idade? "));
+    const generosInput = prompt(
+      "Quais gêneros você mais gosta? (separe por vírgula, ex: Ação, Comédia, Terror): ",
+    );
+    const usuario = {
+      nome: nome,
+      idade: idade,
+      generosFavoritos: generosInput.split(",").map((g) => g.trim()),
+    };
+    console.log(exibirPerfil(usuario));
   }
-} while (opcao !== "5");
+  function exibirPerfil(usuario) {
+    return console.log(
+      `Nome: ${usuario.nome} \n Idade: ${usuario.idade} \n Generos favoritos: ${usuario.generosFavoritos}`,
+    );
+  }
+})();
 
 // Cada opção do menu deverá chamar funções já criadas para os outros requisitos (RF03 a
 // RF07) — o menu é só a porta de entrada, não é necessário duplicar lógica.
@@ -42,22 +66,3 @@ do {
 // A pessoa usuária poderá digitar qualquer nome e qualquer combinação de gêneros — o
 // sistema  deve  funcionar  corretamente  com  respostas  diferentes,  e  não  apenas  com  o
 // exemplo acima.
-const exibirPerfil = (usuario) => {
-  return console.log(
-    `Nome: ${usuario.nome} \n Idade: ${usuario.idade} \n Generos favoritos: ${usuario.generosFavoritos}`,
-  );
-};
-
-const nome = prompt("Qual é o seu nome? ");
-const idade = Number(prompt("Qual é a sua idade? "));
-const generosInput = prompt(
-  "Quais gêneros você mais gosta? (separe por vírgula, ex: Ação, Comédia, Terror): ",
-);
-
-const usuario = {
-  nome: nome,
-  idade: idade,
-  generosFavoritos: generosInput.split(",").map((g) => g.trim()),
-};
-
-console.log(exibirPerfil(usuario));

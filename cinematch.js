@@ -1,6 +1,7 @@
 (function () {
   const prompt = require("prompt-sync")();
-
+  let usuario = null;
+  let opcao = null;
   do {
     console.log("\n===== CineMatch JS =====");
     console.log("0 - criar meu perfil");
@@ -12,7 +13,7 @@
     opcao = prompt("Escolha uma opção: ");
     switch (opcao) {
       case "0":
-        criarPerfil();
+        usuario = criarPerfil();
         break;
       case "1":
         exibirPerfil(usuario);
@@ -45,24 +46,59 @@
       idade: idade,
       generosFavoritos: generosInput.split(",").map((g) => g.trim()),
     };
-    console.log(exibirPerfil(usuario));
+    return usuario;
   }
   function exibirPerfil(usuario) {
-    return console.log(
-      `Nome: ${usuario.nome} \n Idade: ${usuario.idade} \n Generos favoritos: ${usuario.generosFavoritos}`,
-    );
+    if (usuario == null) {
+      console.log("nenhum perfil de usuario encontrado. Crie um perfil.");
+    } else {
+      console.log(
+        `Nome: ${usuario.nome} \n Idade: ${usuario.idade} \n Generos favoritos: ${usuario.generosFavoritos}`,
+      );
+    }
   }
+const catalogo [{},{},{}
+
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 })();
-
-// Cada opção do menu deverá chamar funções já criadas para os outros requisitos (RF03 a
-// RF07) — o menu é só a porta de entrada, não é necessário duplicar lógica.
-
-// RF01 – Criar o perfil da pessoa usuária via terminal (interativo)
-// O  projeto  deverá  capturar  os  dados  da  pessoa  usuária  digitados  no  terminal,  usando  a
-// biblioteca prompt-sync. Exemplo:
-
-// const prompt = require('prompt-sync')({ sigint: true });
-// Lembrando, no fim será um Objeto Simples (usuario)
-// A pessoa usuária poderá digitar qualquer nome e qualquer combinação de gêneros — o
-// sistema  deve  funcionar  corretamente  com  respostas  diferentes,  e  não  apenas  com  o
-// exemplo acima.

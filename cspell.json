@@ -1,6 +1,9 @@
 {
   "version": 0,
-  "language": ["en", "pt-br"],
+  "language": [
+    "en",
+    "pt-br"
+  ],
   "words": [
     "Ação",
     "Calcular",
@@ -8,9 +11,11 @@
     "cinematch",
     "Comédia",
     "compatibilidade",
+    "Conteudo",
     "conteúdo",
     "conteúdos",
     "criar",
+    "duracao",
     "Escolha",
     "generos",
     "idade",

@@ -66,8 +66,7 @@ function calcularCompatibilidades(usuario, catalogo) {
     if (usuario == null) {
       console.log("nenhum perfil de usuário encontrado. Crie um perfil.");
       return;
-      const compatibilidades =catalogo.map((item)=>{
-
+      
       }
     };
   

@@ -1,17 +1,22 @@
-(function () {
-  const catalogo = require("./catalogo");
-  const prompt = require("prompt-sync")();
-  let usuario = null;
-  let opcao = null;
+const catalogo = require("./catalogo");
+const prompt = require("prompt-sync")();
+const { Conteudo, Serie, Filme } = require("./class");
 
+let usuario = null;
+
+function menu(usuario, catalogo) {
   do {
-    console.log("\n===== CineMatch JS =====");
-    console.log("0 - criar meu perfil");
+    console.clear();
+    console.log(usuario);
+    console.log("\n================ CineMatch =================");
+    console.log("0 - Criar meu perfil");
     console.log("1 - Ver meu perfil");
     console.log("2 - Ver catálogo completo");
     console.log("3 - Calcular compatibilidade com todos os conteúdos");
     console.log("4 - Ver o conteúdo mais recomendado");
-    console.log("5 - Sair");
+    console.log("5 - Excluir meu perfil");
+    console.log("6 - Sair");
+    console.log("=============================================\n");
     opcao = prompt("Escolha uma opção: ");
 
     switch (opcao) {
@@ -31,49 +36,77 @@
         exibirRecomendacaoPrincipal(usuario, catalogo);
         break;
       case "5":
-        console.log("Até a próxima maratona!");
+        usuario = excluirPerfil(usuario);
+        break;
+      case "6":
+        console.clear();
+        console.log("\n================ CineMatch =================");
+        if (usuario) {
+          console.log(`\nObrigado por usar nossos serviços, ${usuario.nome}!`);
+        } else {
+          console.log("\nObrigado por usar nossos serviços!");
+        }
+        console.log("\nAté a próxima maratona!");
+        console.log("=============================================\n");
         break;
       default:
         console.log("Opção inválida, tente novamente.");
         break;
     }
-  } while (opcao !== "5");
+  } while (opcao !== "6");
+}
 
-  function criarPerfil() {
-    const nome = prompt("Qual é o seu nome? ");
-    const idade = Number(prompt("Qual é a sua idade? "));
-    const generosInput = prompt(
-      "Quais gêneros você mais gosta? (separe por vírgula, ex: Ação, Comédia, Terror): ",
+function criarPerfil() {
+  console.clear();
+  console.log("\n========= CineMatch - Criar Perfil ========\n");
+  const nome = prompt("Qual é o seu nome? ");
+  const idade = Number(prompt("Qual é a sua idade? "));
+  const generosInput = prompt(
+    "Quais gêneros você mais gosta? (separe por vírgula, ex: Ação, Comédia, Terror): ",
+  );
+
+  const novoUsuario = {
+    nome: nome,
+    idade: idade,
+    generosFavoritos: generosInput.split(",").map((g) => g.trim()),
+  };
+
+  return (usuario = novoUsuario);
+}
+
+function exibirPerfil(usuario) {
+  console.clear();
+  console.log("\n======== CineMatch - Exibir Perfil ========\n");
+  if (!usuario) {
+    console.log("Nenhum perfil de usuario encontrado. Crie um perfil.\n");
+  } else {
+    console.log(
+      `Nome: ${usuario.nome} \nIdade: ${usuario.idade} \nGeneros favoritos: ${usuario.generosFavoritos}\n`,
     );
-
-    const usuario = {
-      nome: nome,
-      idade: idade,
-      generosFavoritos: generosInput.split(",").map((g) => g.trim()),
-    };
-    return usuario;
   }
 
-  function exibirPerfil(usuario) {
-    if (usuario == null) {
-      console.log("Nenhum perfil de usuario encontrado. Crie um perfil.");
-    } else {
-      console.log(
-        `Nome: ${usuario.nome} \n Idade: ${usuario.idade} \n Generos favoritos: ${usuario.generosFavoritos}`,
-      );
-    }
-  }
+  let voltarMenu;
+  do {
+    voltarMenu = prompt("Voltar para menu S/N: ");
+  } while (voltarMenu.toUpperCase() !== "S");
+}
 
-  function exibirCatalogo(catalogo) {
-    console.log(catalogo);
-  }
+function exibirCatalogo(catalogo) {
+  console.clear();
+  console.log(catalogo);
+  console.log("");
+  let voltarMenu;
+  do {
+    voltarMenu = prompt("Voltar para menu S/N: ");
+  } while (voltarMenu.toUpperCase() !== "S");
+}
 
-  function calcularCompatibilidades(usuario, catalogo) {
-    if (usuario == null) {
-      console.log("Nenhum perfil de usuário encontrado. Crie um perfil.");
-      return;
-    }
-
+function calcularCompatibilidades(usuario, catalogo) {
+  console.clear();
+  console.log("\n=== CineMatch - Calcular Compatibilidades ===\n");
+  if (!usuario) {
+    console.log("Nenhum perfil de usuário encontrado. Crie um perfil.\n");
+  } else {
     let contador = 0;
 
     const resultado = catalogo.map((conteudo) => {
@@ -103,5 +136,34 @@
 
     console.log(resultado);
   }
-})();
-// ------------------------------------------------------------------------------
+  let voltarMenu;
+  do {
+    voltarMenu = prompt("Voltar para menu S/N: ");
+  } while (voltarMenu.toUpperCase() !== "S");
+}
+
+function excluirPerfil(usuario) {
+  console.clear();
+  console.log("\n========= CineMatch - Excluir Perfil ========\n");
+  let excluirPerfil;
+  if (!usuario) {
+    console.log("Nenhum perfil de usuario encontrado. Crie um perfil.\n");
+  } else {
+    do {
+      excluirPerfil = prompt("Excluir perfil? S/N: ");
+      if (excluirPerfil.toUpperCase() === "S") {
+        usuario = null;
+      }
+    } while (excluirPerfil.toUpperCase() !== "S");
+  }
+  console.log("");
+  let voltarMenu;
+  do {
+    voltarMenu = prompt("Voltar para menu S/N: ");
+  } while (voltarMenu.toUpperCase() !== "S");
+  return usuario;
+}
+
+//Início programa.
+
+menu(usuario, catalogo);

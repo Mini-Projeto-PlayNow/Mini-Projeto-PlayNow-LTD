@@ -39,21 +39,31 @@ function menu(usuario, catalogo) {
         usuario = excluirPerfil(usuario);
         break;
       case "6":
-        console.clear();
-        console.log("\n================ CineMatch =================");
-        if (usuario) {
-          console.log(`\nObrigado por usar nossos serviços, ${usuario.nome}!`);
-        } else {
-          console.log("\nObrigado por usar nossos serviços!");
-        }
-        console.log("\nAté a próxima maratona!");
-        console.log("=============================================\n");
+        saudacaoDespedida(usuario, despedida);
         break;
       default:
         console.log("Opção inválida, tente novamente.");
-        break;
+        let voltarMenu;
+        do {
+          voltarMenu = prompt("Voltar para menu S/N: ");
+        } while (voltarMenu.toUpperCase() !== "S");
     }
   } while (opcao !== "6");
+}
+
+function saudacaoDespedida(usuario, callback) {
+  console.clear();
+  console.log("\n================ CineMatch =================");
+  if (usuario) {
+    console.log(`\nObrigado por usar nossos serviços, ${usuario.nome}!`);
+  } else {
+    console.log("\nObrigado por usar nossos serviços!");
+  }
+  callback();
+  console.log("\n=============================================\n");
+}
+function despedida() {
+  console.log("Até a próxima maratona!");
 }
 
 function criarPerfil() {
@@ -117,9 +127,10 @@ function calcularCompatibilidades(usuario, catalogo) {
       const porCento = (match * 100).toFixed(0);
       console.log(porCento);
 
-      if (porCento >= 80) {
-        let afinidade = "Alta afinidade";
-      } else if (porCento >= 50) {
+      let afinidade;
+      if (Number(porCento) >= 80) {
+        afinidade = "Alta afinidade";
+      } else if (Number(porCento) >= 50) {
         afinidade = "Média afinidade";
       } else {
         afinidade = "Baixa afinidade";

@@ -1,10 +1,11 @@
 const catalogo = require("./catalogo");
 const prompt = require("prompt-sync")();
-const { Conteudo, Serie, Filme } = require("./class");
+const { Conteudo, Serie, Filme, criarInstanciaConteudo } = require("./class");
 
 let usuario = null;
+const contadorRecomendacoes = criarContadorDeRecomendacoes();
 
-function menu(usuario, catalogo) {
+async function menu(usuario, catalogo) {
   do {
     console.clear();
     console.log("\n================ CineMatch =================");
@@ -14,16 +15,19 @@ function menu(usuario, catalogo) {
     console.log("3 - Adicionar conteúdo ao catálogo");
     console.log("4 - Calcular compatibilidade com todos os conteúdos");
     console.log("5 - Ver o conteúdo mais recomendado");
-    console.log("6 - Excluir meu perfil");
-    console.log("7 - Sair");
+    console.log("6 - Ver gêneros faltantes por conteúdo");
+    console.log("7 - Recomendação personalizada");
+    console.log("8 - Excluir meu perfil");
+    console.log("9 - Carregar catálogo simulado");
+    console.log("10 - Sair");
     console.log("=============================================");
     if (!usuario) {
       console.log("Nenhum perfil de usuario encontrado. Crie um perfil.");
-      console.log("=============================================\n");
     } else {
       console.log(`Usuário logado: ${usuario.nome}`);
-      console.log("=============================================\n");
     }
+    console.log(`Recomendações geradas: ${contadorRecomendacoes.obterTotal()}`);
+    console.log("=============================================\n");
     opcao = prompt("Escolha uma opção: ");
 
     switch (opcao) {
@@ -46,16 +50,26 @@ function menu(usuario, catalogo) {
         exibirRecomendacaoPrincipal(usuario, catalogo);
         break;
       case "6":
-        usuario = excluirPerfil(usuario);
+        listarGenerosFaltantes(usuario, catalogo);
         break;
       case "7":
+        recomendarProximoGenero(usuario, catalogo);
+        break;
+      case "8":
+        usuario = excluirPerfil(usuario);
+        break;
+      case "9":
+        catalogo = await buscarCatalogoSimulado();
+        voltarMenu();
+        break;
+      case "10":
         saudacaoDespedida(usuario, despedida);
         break;
       default:
         defaultMenu();
         break;
     }
-  } while (opcao !== "7");
+  } while (opcao !== "10");
 }
 
 function voltarMenu() {
@@ -63,6 +77,39 @@ function voltarMenu() {
   do {
     voltarMenu = prompt("Voltar para menu S/N: ");
   } while (voltarMenu.toUpperCase() !== "S");
+}
+
+function buscarCatalogoSimulado() {
+  console.clear();
+  console.log("\n================ CineMatch =================\n");
+  console.log("Carregando catálogo...");
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(catalogo);
+    }, 2000);
+    console.log("Catálogo carregado com sucesso!\n");
+  });
+}
+
+async function iniciarSistema() {
+  console.log("Carregando catálogo...");
+  const catalogoCarregado = await buscarCatalogoSimulado();
+  console.log("Catálogo carregado com sucesso!");
+  await menu(usuario, catalogoCarregado);
+}
+
+function criarContadorDeRecomendacoes() {
+  let total = 0;
+
+  return {
+    incrementar() {
+      total++;
+      return total;
+    },
+    obterTotal() {
+      return total;
+    },
+  };
 }
 
 function criarPerfil(usuario) {
@@ -119,14 +166,13 @@ function exibirPerfil(usuario) {
 
 function exibirCatalogo(catalogo) {
   console.clear();
-  console.log("\n========= CineMatch - Exibir Catálogo ========");
+  console.log("\n========= CineMatch - Exibir Catálogo ========\n");
   for (i = 0; i < catalogo.length; i++) {
-    console.log(`Título: ${catalogo[i].titulo}`);
-    console.log(`Tipo: ${catalogo[i].tipo}`);
-    console.log(`Gêneros: ${catalogo[i].generos.join(", ")}`);
-    console.log(`Duração em minutos: ${catalogo[i].duracaoMinutos}`);
-    if (catalogo[i].tipo === "Série") {
-      console.log(`Temporadas: ${catalogo[i].temporadas}`);
+    const conteudo = criarInstanciaConteudo(catalogo[i]);
+    console.log(conteudo.exibirResumo());
+    console.log(conteudo.exibirGeneros());
+    if (conteudo instanceof Serie) {
+      console.log(conteudo.exibirTemporadas());
     }
     console.log("");
   }
@@ -286,7 +332,7 @@ function calcularCompatibilidades(usuario, catalogo) {
         Tipo: ${resultado[i].tipo}
         Compatibilidade: ${resultado[i].compatibilidade}%
         Gêneros em comum: ${resultado[i].generosEmComum.join(", ")}
-        Afinidade ${resultado[i].afinidade}
+        Afinidade: ${resultado[i].afinidade}
         `);
     }
     let voltarMenu;
@@ -300,6 +346,13 @@ function calcularCompatibilidades(usuario, catalogo) {
 function exibirRecomendacaoPrincipal(usuario, catalogo) {
   console.clear();
   console.log("\n======== CineMatch - Recomendação Principal ========");
+
+  if (!usuario) {
+    console.log("\nNenhum perfil de usuário encontrado. Crie um perfil.\n");
+    voltarMenu();
+    return;
+  }
+
   const resultados = compatibilidade(usuario, catalogo);
   const resultado = resultados.find(
     (recomendacao) => Number(recomendacao.compatibilidade) === 100,
@@ -309,8 +362,10 @@ function exibirRecomendacaoPrincipal(usuario, catalogo) {
     console.log("\nNenhum conteúdo com compatibilidade total foi encontrado.");
     console.log("\n====================================================\n");
   } else {
+    contadorRecomendacoes.incrementar();
     console.log(`
-    Conteúdo mais recomendado: 
+    Conteúdo mais recomendado:
+     
     Título: ${resultado.titulo}
     Tipo: ${resultado.tipo}
     Compatibilidade: ${resultado.compatibilidade}%
@@ -321,6 +376,118 @@ function exibirRecomendacaoPrincipal(usuario, catalogo) {
   }
 
   voltarMenu();
+}
+
+function listarGenerosFaltantes(usuario, catalogo) {
+  console.clear();
+  console.log("\n======== CineMatch - Gêneros Faltantes ========\n");
+
+  if (!usuario) {
+    console.log("Nenhum perfil de usuário encontrado. Crie um perfil.\n");
+    voltarMenu();
+    return;
+  }
+
+  const conteudosComGenerosFaltantes = obterConteudosPorGenero(
+    usuario,
+    catalogo,
+  );
+
+  for (let i = 0; i < conteudosComGenerosFaltantes.length; i++) {
+    const item = conteudosComGenerosFaltantes[i];
+
+    console.log(`Para "${item.conteudo.titulo}", você ainda não explorou:`);
+
+    if (item.generosFaltantes.length === 0) {
+      console.log("- Nenhum gênero faltante para este conteúdo.");
+    } else {
+      for (let j = 0; j < item.generosFaltantes.length; j++) {
+        console.log(`- ${item.generosFaltantes[j]}`);
+      }
+    }
+
+    console.log("");
+  }
+
+  voltarMenu();
+}
+
+function recomendarProximoGenero(usuario, catalogo) {
+  console.clear();
+  console.log("\n======== CineMatch - Recomendação Personalizada ========\n");
+
+  if (!usuario) {
+    console.log("Nenhum perfil de usuário encontrado. Crie um perfil.\n");
+    voltarMenu();
+    return;
+  }
+
+  const conteudosComGenerosFaltantes = obterConteudosPorGenero(
+    usuario,
+    catalogo,
+  ).filter((item) => item.generosFaltantes.length > 0);
+
+  if (conteudosComGenerosFaltantes.length === 0) {
+    console.log("Você já explorou todos os gêneros disponíveis no catálogo.");
+    console.log("\n========================================================\n");
+    voltarMenu();
+    return;
+  }
+
+  conteudosComGenerosFaltantes.sort((a, b) => {
+    if (b.generosEmComum.length !== a.generosEmComum.length) {
+      return b.generosEmComum.length - a.generosEmComum.length;
+    }
+
+    if (a.generosFaltantes.length !== b.generosFaltantes.length) {
+      return a.generosFaltantes.length - b.generosFaltantes.length;
+    }
+
+    return a.conteudo.titulo.localeCompare(b.conteudo.titulo, "pt-BR");
+  });
+
+  const sugestao = conteudosComGenerosFaltantes[0];
+  const generoSugerido = sugestao.generosFaltantes[0];
+  const generoAtualPreferido =
+    usuario.generosFavoritos[0] || "seus gêneros favoritos";
+
+  contadorRecomendacoes.incrementar();
+
+  console.log(`Recomendação personalizada para ${usuario.nome}:\n`);
+  console.log(
+    `Você já curte ${generoAtualPreferido} — que tal arriscar um pouco de ${generoSugerido}?`,
+  );
+  console.log(
+    `"${sugestao.conteudo.titulo}" pode ser um ótimo próximo título.`,
+  );
+  console.log(
+    `Conteúdo selecionado porque ainda falta explorar: ${sugestao.generosFaltantes.join(", ")}`,
+  );
+  console.log("\n========================================================\n");
+
+  voltarMenu();
+}
+
+function obterConteudosPorGenero(usuario, catalogo) {
+  const generosFavoritosNormalizados =
+    usuario.generosFavoritos.map(normalizarTexto);
+
+  return catalogo.map((conteudo) => {
+    const generosEmComum = conteudo.generos.filter((genero) =>
+      generosFavoritosNormalizados.includes(normalizarTexto(genero)),
+    );
+
+    const generosFaltantes = conteudo.generos.filter(
+      (genero) =>
+        !generosFavoritosNormalizados.includes(normalizarTexto(genero)),
+    );
+
+    return {
+      conteudo: conteudo,
+      generosEmComum: generosEmComum,
+      generosFaltantes: generosFaltantes,
+    };
+  });
 }
 
 function excluirPerfil(usuario) {
@@ -364,4 +531,4 @@ function defaultMenu() {
 
 //Início programa.
 
-menu(usuario, catalogo);
+iniciarSistema();

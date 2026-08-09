@@ -84,33 +84,33 @@ Mini-Projeto-PlayNow-LTD/
 
 ## O que o sistema faz
 
-| Recurso | Descrição |
-| --- | --- |
-| Perfil interativo | Pergunta nome, idade e gêneros favoritos via terminal |
-| Catálogo fictício | Mantém filmes com gêneros, duração e identificador |
-| Compatibilidade | Calcula a porcentagem de aderência entre usuário e conteúdo |
-| Classificação | Exibe alta, média ou baixa afinidade |
-| Gêneros faltantes | Mostra o que a pessoa ainda não explorou em cada conteúdo |
-| Recomendação principal | Aponta o conteúdo com maior compatibilidade |
-| Recomendação personalizada | Sugere o próximo gênero a testar com base no perfil |
-| Catálogo simulado | Usa `Promise` e `async/await` para simular carregamento de streaming |
-| Contador com closure | Mantém o total de recomendações exibidas no menu |
+| Recurso                    | Descrição                                                            |
+| -------------------------- | -------------------------------------------------------------------- |
+| Perfil interativo          | Pergunta nome, idade e gêneros favoritos via terminal                |
+| Catálogo fictício          | Mantém filmes com gêneros, duração e identificador                   |
+| Compatibilidade            | Calcula a porcentagem de aderência entre usuário e conteúdo          |
+| Classificação              | Exibe alta, média ou baixa afinidade                                 |
+| Gêneros faltantes          | Mostra o que a pessoa ainda não explorou em cada conteúdo            |
+| Recomendação principal     | Aponta o conteúdo com maior compatibilidade                          |
+| Recomendação personalizada | Sugere o próximo gênero a testar com base no perfil                  |
+| Catálogo simulado          | Usa `Promise` e `async/await` para simular carregamento de streaming |
+| Contador com closure       | Mantém o total de recomendações exibidas no menu                     |
 
 ## Menu atual
 
-| Opção | Ação |
-| --- | --- |
-| 0 | Criar meu perfil |
-| 1 | Ver meu perfil |
-| 2 | Ver catálogo completo |
-| 3 | Adicionar conteúdo ao catálogo |
-| 4 | Calcular compatibilidade com todos os conteúdos |
-| 5 | Ver o conteúdo mais recomendado |
-| 6 | Ver gêneros faltantes por conteúdo |
-| 7 | Recomendação personalizada |
-| 8 | Excluir meu perfil |
-| 9 | Carregar catálogo simulado |
-| 10 | Sair |
+| Opção | Ação                                            |
+| ----- | ----------------------------------------------- |
+| 0     | Criar meu perfil                                |
+| 1     | Ver meu perfil                                  |
+| 2     | Ver catálogo completo                           |
+| 3     | Adicionar conteúdo ao catálogo                  |
+| 4     | Calcular compatibilidade com todos os conteúdos |
+| 5     | Ver o conteúdo mais recomendado                 |
+| 6     | Ver gêneros faltantes por conteúdo              |
+| 7     | Recomendação personalizada                      |
+| 8     | Excluir meu perfil                              |
+| 9     | Carregar catálogo simulado                      |
+| 10    | Sair                                            |
 
 ## Como o cálculo funciona
 
@@ -126,23 +126,23 @@ flowchart LR
 
 ## Requisitos atendidos
 
-| RF | Requisito | Implementação no projeto |
-| --- | --- | --- |
-| RF01 | Criar perfil via terminal | `criarPerfil()` com `prompt-sync` |
-| RF02 | Criar catálogo de conteúdos | `catalogo.js` com objetos fictícios |
-| RF03 | Calcular compatibilidade | Função `compatibilidade()` |
-| RF04 | Classificar compatibilidade | `if/else` em `compatibilidade()` |
-| RF05 | Listar habilidades faltantes | `listarGenerosFaltantes()` |
-| RF06 | Encontrar maior compatibilidade | `exibirRecomendacaoPrincipal()` |
-| RF07 | Gerar recomendação personalizada | `recomendarProximoGenero()` |
-| RF08 | Usar métodos de array | `map`, `filter` e `find` no fluxo de compatibilidade e recomendações |
-| RF09 | Criar classe | `Conteudo` em `class.js` |
-| RF10 | Usar herança | `Serie extends Conteudo` e `Filme extends Conteudo` |
-| RF11 | Demonstrar uso do `this` | `exibirResumo()` e `exibirGeneros()` |
-| RF12 | Usar callback | `saudacaoDespedida(usuario, despedida)` |
-| RF13 | Usar closure | `criarContadorDeRecomendacoes()` |
-| RF14 | Usar Promise e async/await | `buscarCatalogoSimulado()` e `iniciarSistema()` |
-| RF15 | Criar menu interativo | `menu()` com `do...while` e `switch` |
+| RF   | Requisito                        | Implementação no projeto                                             |
+| ---- | -------------------------------- | -------------------------------------------------------------------- |
+| RF01 | Criar perfil via terminal        | `criarPerfil()` com `prompt-sync`                                    |
+| RF02 | Criar catálogo de conteúdos      | `catalogo.js` com objetos fictícios                                  |
+| RF03 | Calcular compatibilidade         | Função `compatibilidade()`                                           |
+| RF04 | Classificar compatibilidade      | `if/else` em `compatibilidade()`                                     |
+| RF05 | Listar habilidades faltantes     | `listarGenerosFaltantes()`                                           |
+| RF06 | Encontrar maior compatibilidade  | `exibirRecomendacaoPrincipal()`                                      |
+| RF07 | Gerar recomendação personalizada | `recomendarProximoGenero()`                                          |
+| RF08 | Usar métodos de array            | `map`, `filter` e `find` no fluxo de compatibilidade e recomendações |
+| RF09 | Criar classe                     | `Conteudo` em `class.js`                                             |
+| RF10 | Usar herança                     | `Serie extends Conteudo` e `Filme extends Conteudo`                  |
+| RF11 | Demonstrar uso do `this`         | `exibirResumo()` e `exibirGeneros()`                                 |
+| RF12 | Usar callback                    | `saudacaoDespedida(usuario, despedida)`                              |
+| RF13 | Usar closure                     | `criarContadorDeRecomendacoes()`                                     |
+| RF14 | Usar Promise e async/await       | `buscarCatalogoSimulado()` e `iniciarSistema()`                      |
+| RF15 | Criar menu interativo            | `menu()` com `do...while` e `switch`                                 |
 
 ## Como executar
 
@@ -173,25 +173,25 @@ node cinematch.js
 
 ## Dependências
 
-| Pacote | Função |
-|---|---|
+| Pacote        | Função                                            |
+| ------------- | ------------------------------------------------- |
 | `prompt-sync` | Capturar entradas da pessoa usuária pelo terminal |
 
 ## Ferramentas e organização
 
-| Item | Uso no projeto |
-| --- | --- |
-| VS Code | Editor do código |
-| Git / GitHub | Versionamento e publicação do repositório |
-| Kanban | Organização das tarefas do mini-projeto |
-| cspell.json | Dicionário de termos em pt-BR e vocabulário do projeto |
+| Item         | Uso no projeto                                         |
+| ------------ | ------------------------------------------------------ |
+| VS Code      | Editor do código                                       |
+| Git / GitHub | Versionamento e publicação do repositório              |
+| Kanban       | Organização das tarefas do mini-projeto                |
+| cspell.json  | Dicionário de termos em pt-BR e vocabulário do projeto |
 
 ## Kanban do projeto
 
 Quadro utilizado para acompanhar o desenvolvimento do mini-projeto no Trello.
 
-| Item | Link |
-| --- | --- |
+| Item          | Link                                                     |
+| ------------- | -------------------------------------------------------- |
 | Quadro Kanban | <https://trello.com/b/N6BxvB8m/mini-projeto-playnow-ltd> |
 
 ### Colunas do quadro
@@ -240,8 +240,8 @@ sequenceDiagram
 
 ## Vídeo de apresentação
 
-| Item | Link |
-| --- | --- |
+| Item                  |
+| --------------------- |
 | Vídeo de apresentação |
 
 ### Roteiro sugerido para a gravação

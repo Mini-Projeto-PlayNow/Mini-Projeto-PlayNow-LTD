@@ -2,7 +2,7 @@
 
 ![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-F7DF1E?logo=javascript&logoColor=000)
-![Prompt Sync](https://img.shields.io/badge/prompt--sync-terminal-integration-4B5563)
+![prompt-sync](https://img.shields.io/npm/v/prompt-sync?label=prompt-sync&color=4B5563)
 ![Terminal App](https://img.shields.io/badge/CLI-interativo-111827)
 ![Mermaid](https://img.shields.io/badge/diagrams-Mermaid-1B365D)
 

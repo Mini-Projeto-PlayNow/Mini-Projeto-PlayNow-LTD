@@ -11,10 +11,11 @@ function menu(usuario, catalogo) {
     console.log("0 - Criar meu perfil");
     console.log("1 - Ver meu perfil");
     console.log("2 - Ver catálogo completo");
-    console.log("3 - Calcular compatibilidade com todos os conteúdos");
-    console.log("4 - Ver o conteúdo mais recomendado");
-    console.log("5 - Excluir meu perfil");
-    console.log("6 - Sair");
+    console.log("3 - Adicionar conteúdo ao catálogo");
+    console.log("4 - Calcular compatibilidade com todos os conteúdos");
+    console.log("5 - Ver o conteúdo mais recomendado");
+    console.log("6 - Excluir meu perfil");
+    console.log("7 - Sair");
     console.log("=============================================");
     if (!usuario) {
       console.log("Nenhum perfil de usuario encontrado. Crie um perfil.");
@@ -36,22 +37,25 @@ function menu(usuario, catalogo) {
         exibirCatalogo(catalogo);
         break;
       case "3":
-        calcularCompatibilidades(usuario, catalogo);
+        adicionarConteudoCatalogo(catalogo);
         break;
       case "4":
-        exibirRecomendacaoPrincipal(usuario, catalogo);
+        calcularCompatibilidades(usuario, catalogo);
         break;
       case "5":
-        usuario = excluirPerfil(usuario);
+        exibirRecomendacaoPrincipal(usuario, catalogo);
         break;
       case "6":
+        usuario = excluirPerfil(usuario);
+        break;
+      case "7":
         saudacaoDespedida(usuario, despedida);
         break;
       default:
         defaultMenu();
         break;
     }
-  } while (opcao !== "6");
+  } while (opcao !== "7");
 }
 
 function voltarMenu() {
@@ -115,9 +119,86 @@ function exibirPerfil(usuario) {
 
 function exibirCatalogo(catalogo) {
   console.clear();
-  console.log(catalogo);
-  console.log("");
+  console.log("\n========= CineMatch - Exibir Catálogo ========");
+  for (i = 0; i < catalogo.length; i++) {
+    console.log(`Título: ${catalogo[i].titulo}`);
+    console.log(`Tipo: ${catalogo[i].tipo}`);
+    console.log(`Gêneros: ${catalogo[i].generos.join(", ")}`);
+    console.log(`Duração em minutos: ${catalogo[i].duracaoMinutos}`);
+    if (catalogo[i].tipo === "Série") {
+      console.log(`Temporadas: ${catalogo[i].temporadas}`);
+    }
+    console.log("");
+  }
+  console.log("\n=============================================\n");
   voltarMenu();
+}
+
+function adicionarConteudoCatalogo(catalogo) {
+  console.clear();
+  console.log("\n========= CineMatch - Adicionar Conteúdo ========\n");
+
+  const titulo = formatarNome(prompt("Título do conteúdo: "));
+  const tipoInformado = prompt("Tipo (Filme/Série): ");
+  const tipoNormalizado = normalizarTexto(tipoInformado);
+
+  const generosInput = prompt(
+    "Gêneros (separe por vírgula, ex: Ação, Drama, Ficção científica): ",
+  );
+
+  const generos = generosInput
+    .split(",")
+    .map((genero) => padronizarGenero(genero))
+    .filter(Boolean);
+
+  const duracaoMinutos = Number(prompt("Duração em minutos: "));
+
+  if (Number.isNaN(duracaoMinutos)) {
+    console.log("Duração inválida. O conteúdo não foi adicionado.");
+    voltarMenu();
+    return catalogo;
+  }
+
+  let novoConteudo;
+  const proximoId = catalogo.length
+    ? Math.max(...catalogo.map((conteudo) => conteudo.id ?? 0)) + 1
+    : 1;
+
+  if (tipoNormalizado === "serie" || tipoNormalizado === "série") {
+    const temporadas = Number(prompt("Número de temporadas: "));
+
+    if (Number.isNaN(temporadas)) {
+      console.log(
+        "Número de temporadas inválido. O conteúdo não foi adicionado.",
+      );
+      voltarMenu();
+      return catalogo;
+    }
+
+    novoConteudo = new Serie(titulo, generos, duracaoMinutos, temporadas);
+  } else if (tipoNormalizado === "filme") {
+    novoConteudo = new Filme(titulo, generos, duracaoMinutos);
+  } else {
+    novoConteudo = new Conteudo(
+      titulo,
+      formatarNome(tipoInformado),
+      generos,
+      duracaoMinutos,
+    );
+  }
+
+  novoConteudo.id = proximoId;
+
+  catalogo.push(novoConteudo);
+
+  console.log("\nConteúdo adicionado com sucesso:");
+  console.log(novoConteudo.exibirResumo());
+  if (novoConteudo instanceof Serie) {
+    console.log(novoConteudo.exibirTemporadas());
+  }
+
+  voltarMenu();
+  return catalogo;
 }
 
 function formatarNome(nome) {

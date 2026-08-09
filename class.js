@@ -9,6 +9,10 @@ class Conteudo {
   exibirResumo() {
     return `${this.titulo} (${this.tipo}) — ${this.duracaoMinutos} min`;
   }
+
+  exibirGeneros() {
+    return `Gêneros: ${this.generos.join(", ")}`;
+  }
 }
 
 class Serie extends Conteudo {
@@ -28,4 +32,30 @@ class Filme extends Conteudo {
   }
 }
 
-module.exports = { Conteudo, Serie, Filme };
+function criarInstanciaConteudo(conteudo) {
+  if (conteudo instanceof Conteudo) {
+    return conteudo;
+  }
+
+  if (conteudo.tipo === "Série") {
+    return new Serie(
+      conteudo.titulo,
+      conteudo.generos,
+      conteudo.duracaoMinutos,
+      conteudo.temporadas,
+    );
+  }
+
+  if (conteudo.tipo === "Filme") {
+    return new Filme(conteudo.titulo, conteudo.generos, conteudo.duracaoMinutos);
+  }
+
+  return new Conteudo(
+    conteudo.titulo,
+    conteudo.tipo,
+    conteudo.generos,
+    conteudo.duracaoMinutos,
+  );
+}
+
+module.exports = { Conteudo, Serie, Filme, criarInstanciaConteudo };

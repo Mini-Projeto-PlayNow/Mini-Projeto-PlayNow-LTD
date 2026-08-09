@@ -29,7 +29,6 @@ async function menu(usuario, catalogo) {
     console.log(`Recomendações geradas: ${contadorRecomendacoes.obterTotal()}`);
     console.log("=============================================\n");
     opcao = prompt("Escolha uma opção: ");
-
     switch (opcao) {
       case "0":
         usuario = criarPerfil(usuario);
@@ -92,6 +91,8 @@ function buscarCatalogoSimulado() {
 }
 
 async function iniciarSistema() {
+  console.clear();
+  console.log("\n================ CineMatch =================\n");
   console.log("Carregando catálogo...");
   const catalogoCarregado = await buscarCatalogoSimulado();
   console.log("Catálogo carregado com sucesso!");
@@ -497,15 +498,13 @@ function excluirPerfil(usuario) {
   if (!usuario) {
     console.log("Nenhum perfil de usuario encontrado. Crie um perfil.\n");
   } else {
-    do {
-      excluirPerfil = prompt("Excluir perfil? S/N: ");
-      if (excluirPerfil.toUpperCase() === "S") {
-        usuario = null;
-      }
-    } while (excluirPerfil.toUpperCase() !== "S");
+    excluirPerfil = prompt("Excluir perfil? S/N: ");
+    if (excluirPerfil.toUpperCase() === "S") {
+      usuario = null;
+    } else {
+      voltarMenu();
+    }
   }
-  console.log("");
-  voltarMenu();
   return usuario;
 }
 
@@ -520,9 +519,9 @@ function saudacaoDespedida(usuario, callback) {
   callback();
   console.log("\n=============================================\n");
 }
-function despedida() {
+const despedida = () => {
   console.log("Até a próxima maratona!");
-}
+};
 
 function defaultMenu() {
   console.log("Opção inválida, tente novamente.");

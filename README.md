@@ -6,6 +6,10 @@
 ![Terminal App](https://img.shields.io/badge/CLI-interativo-111827)
 ![Mermaid](https://img.shields.io/badge/diagrams-Mermaid-1B365D)
 
+## Repositório
+
+[Acessar o projeto no GitHub](https://github.com/Mini-Projeto-PlayNow/Mini-Projeto-PlayNow-LTD)
+
 ## Sobre o projeto
 
 O **CineMatch JS** é um simulador interativo de recomendação de streaming criado em **Node.js** para o mini-projeto avaliativo da disciplina **Mobile React Native T1 - M1S6**.

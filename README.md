@@ -10,7 +10,7 @@
 
 O **CineMatch JS** é um simulador interativo de recomendação de streaming criado em **Node.js** para o mini-projeto avaliativo da disciplina **Mobile React Native T1 - M1S6**.
 
-A aplicação conversa com a pessoa usuária pelo terminal, coleta perfil, compara preferências com um catálogo de filmes e séries fictícios e gera recomendações com base em compatibilidade, gêneros não explorados e sugestões personalizadas.
+A aplicação conversa com a pessoa usuária pelo terminal, coleta perfil, compara preferências com um catálogo inicial de filmes fictícios e gera recomendações com base em compatibilidade, gêneros não explorados e sugestões personalizadas. Pelo menu, também é possível adicionar filmes, séries ou outros tipos de conteúdo.
 
 O projeto foi estruturado para demonstrar, na prática, os principais conceitos trabalhados no módulo:
 
@@ -32,7 +32,7 @@ O projeto foi estruturado para demonstrar, na prática, os principais conceitos 
 flowchart TD
     A[Início] --> B[Carregar catálogo simulado]
     B --> C[Exibir menu interativo]
-    C --> D[Coletar perfil da pessoa usuária]
+    C --> D[Criar ou consultar perfil]
     D --> E[Comparar preferências com o catálogo]
     E --> F[Calcular compatibilidade]
     F --> G[Listar gêneros faltantes]
@@ -91,7 +91,7 @@ Mini-Projeto-PlayNow-LTD/
 | Compatibilidade            | Calcula a porcentagem de aderência entre usuário e conteúdo          |
 | Classificação              | Exibe alta, média ou baixa afinidade                                 |
 | Gêneros faltantes          | Mostra o que a pessoa ainda não explorou em cada conteúdo            |
-| Recomendação principal     | Aponta o conteúdo com maior compatibilidade                          |
+| Recomendação principal     | Exibe o primeiro conteúdo com compatibilidade total (100%)           |
 | Recomendação personalizada | Sugere o próximo gênero a testar com base no perfil                  |
 | Catálogo simulado          | Usa `Promise` e `async/await` para simular carregamento de streaming |
 | Contador com closure       | Mantém o total de recomendações exibidas no menu                     |
@@ -133,7 +133,7 @@ flowchart LR
 | RF03 | Calcular compatibilidade         | Função `compatibilidade()`                                           |
 | RF04 | Classificar compatibilidade      | `if/else` em `compatibilidade()`                                     |
 | RF05 | Listar habilidades faltantes     | `listarGenerosFaltantes()`                                           |
-| RF06 | Encontrar maior compatibilidade  | `exibirRecomendacaoPrincipal()`                                      |
+| RF06 | Encontrar maior compatibilidade  | Pendente: a função ainda busca apenas compatibilidade de 100%        |
 | RF07 | Gerar recomendação personalizada | `recomendarProximoGenero()`                                          |
 | RF08 | Usar métodos de array            | `map`, `filter` e `find` no fluxo de compatibilidade e recomendações |
 | RF09 | Criar classe                     | `Conteudo` em `class.js`                                             |
@@ -185,6 +185,22 @@ node cinematch.js
 | Git / GitHub | Versionamento e publicação do repositório              |
 | Kanban       | Organização das tarefas do mini-projeto                |
 | cspell.json  | Dicionário de termos em pt-BR e vocabulário do projeto |
+
+### Extensões recomendadas para o VS Code
+
+- **ESLint**: destaca problemas comuns de JavaScript, como variáveis sem declaração.
+- **Prettier - Code formatter**: mantém a formatação do código consistente.
+- **Code Spell Checker**: usa o arquivo `cspell.json` para revisar a escrita em português e inglês.
+
+## Internet e arquitetura cliente-servidor
+
+Na internet, aplicações cliente enviam requisições a servidores pela rede; os servidores processam a solicitação e devolvem uma resposta. Em uma plataforma de streaming real, o aplicativo cliente pediria o catálogo a uma API e receberia os conteúdos para exibição.
+
+Neste projeto, o terminal representa o **cliente** e `buscarCatalogoSimulado()` representa o **servidor**. A função usa `Promise` e `setTimeout` para simular o tempo de resposta de uma busca remota, mas os dados continuam locais em `catalogo.js`: nenhuma API ou conexão de rede é utilizada.
+
+### Declaração de variáveis
+
+O código prioriza `const` para valores que não são reatribuídos e `let` para valores que mudam durante o fluxo. `var` tem escopo de função e permite redeclarações; por isso, não é adotado neste projeto, em favor de `let` e `const`, que tornam o escopo mais previsível.
 
 ## Kanban do projeto
 
@@ -240,9 +256,9 @@ sequenceDiagram
 
 ## Vídeo de apresentação
 
-| Item                  |
-| --------------------- |
-| Vídeo de apresentação |
+| Item                  | Status |
+| --------------------- | ------ |
+| Vídeo de apresentação | Adicionar o link público antes da entrega |
 
 ### Roteiro sugerido para a gravação
 

@@ -256,19 +256,25 @@ sequenceDiagram
 
 ## Vídeo de apresentação
 
-| Item                  | Status |
-| --------------------- | ------ |
-| Vídeo de apresentação | Adicionar o link público antes da entrega |
+| Item                  | Status                                                                                                         |
+| --------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Vídeo de apresentação | [Assistir no Google Drive](https://drive.google.com/file/d/1fld6BDsPJDkq8lwuLIYfblrvI7bzBU68/view?usp=sharing) |
 
 ### Roteiro sugerido para a gravação
 
-1. Apresentar rapidamente o objetivo do projeto e o problema que ele resolve.
-2. Mostrar o arquivo principal e explicar o fluxo geral: cadastro, catálogo, compatibilidade e recomendações.
-3. Executar o projeto no terminal e demonstrar a criação do perfil.
-4. Mostrar o catálogo carregando de forma simulada com `Promise` e `async/await`.
-5. Navegar pelas opções do menu, destacando compatibilidade, gêneros faltantes, recomendação principal e recomendação personalizada.
-6. Explicar onde estão aplicados os requisitos técnicos: classes, herança, callback, closure e métodos de array.
-7. Finalizar comentando a organização do Kanban, branches e commits realizados.
+Planeje a gravação para **5 minutos**. Os tempos abaixo totalizam **5:00** e deixam a maior parte do vídeo para a demonstração do programa.
+
+| Tempo     | Duração    | O que apresentar                                                                                                                  |
+| --------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| 0:00–0:30 | 30 s       | Apresentar o objetivo do projeto e o problema que ele resolve.                                                                    |
+| 0:30–1:05 | 35 s       | Mostrar o arquivo principal e resumir o fluxo: perfil, catálogo, compatibilidade e recomendações.                                 |
+| 1:05–2:00 | 55 s       | Executar o projeto no terminal e demonstrar a criação do perfil.                                                                  |
+| 2:00–2:35 | 35 s       | Mostrar o carregamento simulado do catálogo com `Promise` e `async/await`.                                                        |
+| 2:35–3:45 | 1 min 10 s | Navegar pelas opções do menu, destacando compatibilidade, gêneros faltantes, recomendação principal e recomendação personalizada. |
+| 3:45–4:30 | 45 s       | Explicar onde estão classes, herança, callback, closure e métodos de array.                                                       |
+| 4:30–5:00 | 30 s       | Finalizar mostrando a organização do Kanban, as branches e os commits realizados.                                                 |
+
+Faça um ensaio cronometrado antes de gravar. Se algum comando demorar para responder, reduza a explicação do código e priorize a demonstração no terminal.
 
 ## Licença
 
